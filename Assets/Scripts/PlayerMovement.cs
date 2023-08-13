@@ -8,6 +8,9 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb;
     public Transform groundCheck;
     public LayerMask groundLayer;
+  
+    [SerializeField] float cayoteTime = 0.2f;
+    [SerializeField] float cayoteTimeCounter;
     [SerializeField] float apexTimer;
     [SerializeField] float apexCounter;
     [SerializeField] float fallSpeed = 5f;
@@ -25,41 +28,53 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+
+        if (isGrounded())
+        {
+            cayoteTimeCounter = cayoteTime;
+        }
+        else
+        {
+            cayoteTimeCounter -= Time.deltaTime;
+        }
+
+        if (!isFacingRight && horizontal > 0f)
+        {
+            Flip();
+        }
+        else if (isFacingRight && horizontal < 0f)
+        {
+            Flip();
+        }
         apexTimer -= Time.deltaTime;
+        HorizontalSpeed();
+        
         WhenInAir();
-
-
-        if ( !isFacingRight && horizontal > 0f)
-        {
-            Flip();
-        }
-        else if(isFacingRight && horizontal < 0f)
-        {
-            Flip();
-        }
 
         
     }
 
     public void Jump(InputAction.CallbackContext context )
-    {
-        if(context.performed && isGrounded())
+    {  
+       
+
+        if (context.performed  && cayoteTimeCounter > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+
         }
+
         if ( context.canceled && rb.velocity.y > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+            cayoteTimeCounter = 0;
         }
     }
 
-    public void WhenInAir()
-    {
-        
-        
+   
 
-       
+    private void WhenInAir()
+    {     
         if (rb.velocity.y <= 1 && rb.velocity.y >= -1 && !isGrounded() )
         {
             rb.velocity = new Vector2(horizontal * speed * speedBonus, rb.velocity.y);
@@ -71,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if(apexTimer <= 0) 
         {
-            rb.gravityScale = 3;
+            rb.gravityScale = 4;
         }
         else if(apexTimer > 0)
         {
@@ -99,7 +114,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-
+    private void HorizontalSpeed()
+    {
+        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+    }
     public void Move(InputAction.CallbackContext context)
     {
         horizontal = context.ReadValue<Vector2>().x;
