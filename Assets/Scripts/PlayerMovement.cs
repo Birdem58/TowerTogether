@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb;
     public Transform groundCheck;
     public LayerMask groundLayer;
+    public Animator anim;
   
     [SerializeField] float cayoteTime = 0.2f;
     [SerializeField] float cayoteTimeCounter;
@@ -18,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float speed = 10f;
     [SerializeField] float speedBonus = 2f;
     [SerializeField] float jumpPower = 10f;
-    private bool isFacingRight = true;
+    private bool isFacingRight = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +29,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        anim.SetBool("isGrounded", isGrounded());
+        
         if (isGrounded())
         {
             cayoteTimeCounter = cayoteTime;
@@ -116,7 +118,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void HorizontalSpeed()
     {
+       
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        anim.SetFloat("Speed", rb.velocity.x);
     }
     public void Move(InputAction.CallbackContext context)
     {
