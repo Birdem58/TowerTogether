@@ -5,8 +5,22 @@ using UnityEngine;
 public class PlayerColisions : MonoBehaviour
 {
     public KacanKovalayanSetter kacanKovalayanSetter;
+    public Timer timer;
     public GameObject otherPlayer;
     private string otherPlayerTag;
+    private void Awake()
+    {
+        GameManager.OnGameStateChange += GameManager_OnGameStateChange;
+    }
+    private void OnDestroy()
+    {
+        GameManager.OnGameStateChange -= GameManager_OnGameStateChange;
+    }
+
+    private void GameManager_OnGameStateChange(GameManager.GameState state)
+    {
+        
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -14,23 +28,34 @@ public class PlayerColisions : MonoBehaviour
         otherPlayerTag = otherPlayer.tag;
         Debug.Log(otherPlayerTag);
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if(timer.timerCounter <= 0)
+        {
+            if(kacanKovalayanSetter.kacan == otherPlayerTag)
+            {
+                GameManager.Instance.UpdateGameState(GameManager.GameState.GriKaybetti);
+            }
+            else
+            {
+                GameManager.Instance.UpdateGameState(GameManager.GameState.GriKazandi);
+            }
+        }
     }
+
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //Eðer kaçanla collide edersek ve bu kaçan turuncu kedi olursa
         if (collision.gameObject.CompareTag("playa") && kacanKovalayanSetter.kacan == otherPlayerTag)
         {
-            Debug.Log("KAZANDIIN");
+            GameManager.Instance.UpdateGameState(GameManager.GameState.GriKazandi);
         }
         //Eðer Kovalayanla collide edersek ve bu kovalayan turuncu kedi olursa
        else if (collision.gameObject.CompareTag("playa") && kacanKovalayanSetter.kovalayan == otherPlayerTag)
         {
-            Debug.Log("Kaybettin");
+            GameManager.Instance.UpdateGameState(GameManager.GameState.GriKaybetti);
         }
     }
 

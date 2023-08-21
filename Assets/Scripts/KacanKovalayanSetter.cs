@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,13 +16,25 @@ public class KacanKovalayanSetter : MonoBehaviour
     public Transform player1;
     public Transform player2;
     public GameObject canvas;
-    
+    private void Awake()
+    {
+        GameManager.OnGameStateChange += GameManager_OnGameStateChange;
+    }
+    private void OnDestroy()
+    {
+        GameManager.OnGameStateChange -= GameManager_OnGameStateChange;
+    }
+    private void GameManager_OnGameStateChange(GameManager.GameState state)
+    {
+        canvas.SetActive(state == GameManager.GameState.SelectKedy);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         kacanTriangle.transform.position = new Vector3(100, 100, 100);
         kovalayanTriangle.transform.position = new Vector3(100, 100, 100);
-        canvas.SetActive(true);
+        
     }
 
     // Update is called once per frame
@@ -43,14 +56,15 @@ public class KacanKovalayanSetter : MonoBehaviour
     {
         kacan = p2;
         kovalayan = p1;
-        canvas.SetActive(false);
-        
+
+        GameManager.Instance.UpdateGameState(GameManager.GameState.GriKovaliyor);
     }
 
     public void KovalayanGri()
     {
         kacan = p1;
         kovalayan = p2;
-        canvas.SetActive(false);
+        GameManager.Instance.UpdateGameState(GameManager.GameState.GriKaciyor);
+
     }
 }
