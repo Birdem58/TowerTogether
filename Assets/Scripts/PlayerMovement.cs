@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     public LayerMask groundLayer;
     public Animator anim;
+    public AudioSource audioSource;
+    public AudioClip mlem;
   
     [SerializeField] float cayoteTime = 0.2f;
     [SerializeField] float cayoteTimeCounter;
@@ -57,12 +59,14 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void Jump(InputAction.CallbackContext context )
-    {  
-       
+    {
 
+        
         if (context.performed  && cayoteTimeCounter > 0f)
         {
+            audioSource.PlayOneShot(mlem);
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+            
 
         }
 
