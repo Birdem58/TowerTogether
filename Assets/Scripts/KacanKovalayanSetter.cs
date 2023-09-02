@@ -16,6 +16,7 @@ public class KacanKovalayanSetter : MonoBehaviour
     public Transform player1;
     public Transform player2;
     public GameObject canvas;
+    
     private void Awake()
     {
         GameManager.OnGameStateChange += GameManager_OnGameStateChange;
@@ -50,6 +51,8 @@ public class KacanKovalayanSetter : MonoBehaviour
             kacanTriangle.transform.position = player1.position + new Vector3(0, 0.5f, 0);
             kovalayanTriangle.transform.position = player2.position + new Vector3(0, 0.5f, 0);
         }
+
+     
     }
 
     public void KacanGri()

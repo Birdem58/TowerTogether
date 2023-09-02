@@ -8,11 +8,16 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public Timer timer;
+    
+    public MenuManager menuManager;
+    public MapManager mapManager;
+    public PauseManager pauseManager;
     public UIanim griAnim;
     public UIanim turuncuAnim;
     public GameState State;
     public GameObject canvasWin;
     public GameObject canvasLose;
+   
     public static event Action<GameState> OnGameStateChange;
     private void Awake()
     {
@@ -22,7 +27,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        UpdateGameState(GameState.SelectKedy);
+        UpdateGameState(GameState.MenuManager);
     }
     public void UpdateGameState(GameState newState)
     {
@@ -31,6 +36,12 @@ public class GameManager : MonoBehaviour
 
         switch (newState)
         {
+            case GameState.MenuManager:
+                HandleMenuManager();
+                break;
+            case GameState.MapSecim:
+                HandleMapSecim();
+                break;
             case GameState.SelectKedy:
                 HandleSelectKedy();
                 break;
@@ -53,6 +64,19 @@ public class GameManager : MonoBehaviour
         }
         OnGameStateChange?.Invoke(newState);
     }
+    private void HandleMenuManager()
+    {
+        menuManager.OpenMenu();
+        timer.gameOnPause = true;
+        
+    }
+    private void HandleMapSecim()
+    {
+        mapManager.OpenMapMenu();
+        pauseManager.pauseCanvas.SetActive(false);
+        
+
+    }
 
     public void HandleGameReset()
     {
@@ -63,7 +87,8 @@ public class GameManager : MonoBehaviour
         canvasWin.SetActive(true);
         griAnim.Func_PlayUIAnim();
         timer.gameOnPause = true;
-        
+       
+
     }
 
     private void HandleGriKaybetti()
@@ -71,20 +96,19 @@ public class GameManager : MonoBehaviour
         canvasLose.SetActive(true);
         turuncuAnim.Func_PlayUIAnim();
         timer.gameOnPause = true;
-
+       
     }
 
     private void HandleGriKaciyor()
     {
         timer.SetTimer();
-
         timer.gameOnPause = false;
-
+      
     }
 
     private void HandleGriKovaliyor()
     {
-       
+        
         timer.SetTimer();
         timer.gameOnPause = false;
 
@@ -92,10 +116,13 @@ public class GameManager : MonoBehaviour
 
     private void HandleSelectKedy()
     {
+       
         timer.gameOnPause = true;
     }
     public enum GameState
-    {
+    {   
+        MenuManager,
+        MapSecim,
         SelectKedy,
         GriKovaliyor,
         GriKaciyor,
