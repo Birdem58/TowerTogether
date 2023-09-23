@@ -13,9 +13,12 @@ public class KacanKovalayanSetter : MonoBehaviour
     public string p2 = "playanumba2";
     public Transform kacanTriangle;
     public Transform kovalayanTriangle;
+    public Transform kacanLightPos;
+    public Transform kovalayanLightPos;
     public Transform player1;
     public Transform player2;
     public GameObject canvas;
+    
     
     private void Awake()
     {
@@ -45,11 +48,15 @@ public class KacanKovalayanSetter : MonoBehaviour
         {
             kacanTriangle.transform.position = player2.position + new Vector3(0, 0.5f, 0);
             kovalayanTriangle.transform.position = player1.position + new Vector3(0, 0.5f, 0);
+            kacanLightPos.transform.position = player2.position;
+            kovalayanLightPos.transform.position = player1.position;
         }
        else if(kacan == p1 && kovalayan == p2)
         {
             kacanTriangle.transform.position = player1.position + new Vector3(0, 0.5f, 0);
             kovalayanTriangle.transform.position = player2.position + new Vector3(0, 0.5f, 0);
+            kacanLightPos.transform.position = player1.position;
+            kovalayanLightPos.transform.position = player2.position;
         }
 
      

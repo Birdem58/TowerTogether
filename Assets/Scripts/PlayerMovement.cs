@@ -62,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
     public void Jump(InputAction.CallbackContext context )
     {
 
-        
+        Debug.Log("Jampýt");
         if (context.performed  && cayoteTimeCounter > 0f)
         {
             audioSource.PlayOneShot(mlem);

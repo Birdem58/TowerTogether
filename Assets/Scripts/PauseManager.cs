@@ -5,8 +5,11 @@ using UnityEngine;
 public class PauseManager : MonoBehaviour
 {
     public GameObject pauseCanvas;
-    
-   public bool isGameOnPause { private set;  get; }
+    public GameObject sesCanvas;
+
+    public Timer timer;
+
+    public bool isGameOnPause { private set;  get; }
     private void Awake()
     {
         GameManager.OnGameStateChange += GameManager_OnGameStateChange;
@@ -26,28 +29,38 @@ public class PauseManager : MonoBehaviour
     {
         if( Input.GetKeyDown(KeyCode.Escape))
           {
-            if(isGameOnPause)
-            {
-                Devam();
-            }
-            else
-            {
-                Dur();
-            }
+            Dur();          
         }
-    }
 
+
+        if(isGameOnPause)
+        {
+            timer.timerCounter = timer.timeranlýk;
+        }
+        
+    }
+    public void SesAyar()
+    {
+        sesCanvas.SetActive(true);
+        pauseCanvas.SetActive(false);
+        
+        
+    }
+    
   public  void Devam()
     {
+       
         isGameOnPause = false;
-        Time.timeScale = 1f;
         pauseCanvas.SetActive(false);
     }
    public  void Dur()
     {
-        isGameOnPause = true;
-        Time.timeScale = 0f;
+        Debug.Log("dur basýldý");
+        
+
+        sesCanvas.SetActive(false);
         pauseCanvas.SetActive(true);
+       isGameOnPause = true;
     }
 
     public void Cýk()

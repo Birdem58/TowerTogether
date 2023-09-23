@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public Timer timer;
-    
+    public PlayerColisions playerColisions;
     public MenuManager menuManager;
     public MapManager mapManager;
     public PauseManager pauseManager;
@@ -28,7 +29,11 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         UpdateGameState(GameState.MenuManager);
+       
+        
     }
+
+
     public void UpdateGameState(GameState newState)
     {
         State = newState;
@@ -70,6 +75,14 @@ public class GameManager : MonoBehaviour
         timer.gameOnPause = true;
         
     }
+
+    private void SetAllCanvasFalse()
+    {
+        canvasWin.SetActive(false);
+        canvasLose.SetActive(false);
+        playerColisions.dusmeCollider.isTrigger = false;
+        playerColisions.dusmeCollider2.isTrigger = false;
+    }
     private void HandleMapSecim()
     {
         mapManager.OpenMapMenu();
@@ -79,8 +92,9 @@ public class GameManager : MonoBehaviour
     }
 
     public void HandleGameReset()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    {  
+        UpdateGameState(GameState.MapSecim);
+        SetAllCanvasFalse();
     }
     private void HandleGriKazandi()
     {

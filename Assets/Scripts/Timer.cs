@@ -10,6 +10,7 @@ public class Timer : MonoBehaviour
     public float timerStart = 60f;
     public float timerCounter;
     public bool gameOnPause = false;
+    public float timeranlýk;
     // Start is called before the first frame update
     void Start()
     { 
@@ -21,6 +22,7 @@ public class Timer : MonoBehaviour
     {
         timer.text = timerCounter.ToString("0");
         CheckPause();
+        timeranlýk = timerCounter;
         timerCounter -= Time.deltaTime;
     }
 
@@ -35,6 +37,8 @@ public class Timer : MonoBehaviour
         {
             Time.timeScale = 1;
         }
+
+      
     }
 
     public void SetTimer()

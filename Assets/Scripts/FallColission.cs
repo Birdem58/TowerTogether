@@ -5,7 +5,10 @@ using UnityEngine;
 public class FallColission : MonoBehaviour
 {
     public KacanKovalayanSetter kacanKovalayanSetter;
+    public MapManager mapManager;
+    public int mapIndex;
     public GameObject otherPlayer;
+    
     private void Awake()
     {
         GameManager.OnGameStateChange += GameManager_OnGameStateChange;
@@ -32,14 +35,20 @@ public class FallColission : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag("playa"))
+    {  
+        if(mapManager.currentMap == mapManager.maps[mapIndex])
         {
-            GameManager.Instance.UpdateGameState(GameManager.GameState.GriKazandi);
+            if (collision.gameObject.CompareTag("playa"))
+            {
+                GameManager.Instance.UpdateGameState(GameManager.GameState.GriKazandi);
+                
+            }
+            else
+            {
+                GameManager.Instance.UpdateGameState(GameManager.GameState.GriKaybetti);
+                
+            }
         }
-        else
-        {
-            GameManager.Instance.UpdateGameState(GameManager.GameState.GriKaybetti);
-        }
+       
     }
 }
