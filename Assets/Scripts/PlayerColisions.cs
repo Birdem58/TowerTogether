@@ -9,6 +9,8 @@ public class PlayerColisions : MonoBehaviour
     public GameObject otherPlayer;
     public Collider2D dusmeCollider;
     public Collider2D dusmeCollider2;
+    public AudioClip boom;
+    public AudioSource aSource;
 
     private void Awake()
     {
@@ -55,12 +57,14 @@ public class PlayerColisions : MonoBehaviour
             GameManager.Instance.UpdateGameState(GameManager.GameState.GriKazandi);
             dusmeCollider.isTrigger = true;
             dusmeCollider2.isTrigger = true;
+            aSource.PlayOneShot(boom);
         }
         //Eðer Kovalayanla collide edersek ve bu kovalayan turuncu kedi olursa
        else if (collision.gameObject.CompareTag("playa") && kacanKovalayanSetter.kovalayan == otherPlayer.tag)
         {
             GameManager.Instance.UpdateGameState(GameManager.GameState.GriKaybetti);
             dusmeCollider.isTrigger = true;
+            aSource.PlayOneShot(boom);
             dusmeCollider2.isTrigger = true;
         }
     }

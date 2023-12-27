@@ -13,8 +13,7 @@ public class GameManager : MonoBehaviour
     public MenuManager menuManager;
     public MapManager mapManager;
     public PauseManager pauseManager;
-    public UIanim griAnim;
-    public UIanim turuncuAnim;
+    
     public GameState State;
     public GameObject canvasWin;
     public GameObject canvasLose;
@@ -99,7 +98,7 @@ public class GameManager : MonoBehaviour
     private void HandleGriKazandi()
     {
         canvasWin.SetActive(true);
-        griAnim.Func_PlayUIAnim();
+      
         timer.gameOnPause = true;
        
 
@@ -108,7 +107,7 @@ public class GameManager : MonoBehaviour
     private void HandleGriKaybetti()
     {
         canvasLose.SetActive(true);
-        turuncuAnim.Func_PlayUIAnim();
+        
         timer.gameOnPause = true;
        
     }
