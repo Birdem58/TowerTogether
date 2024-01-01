@@ -21,15 +21,15 @@ public class VolumeAyar : MonoBehaviour
         {
             SetMusicLevel();
         }
-        auMaxwell.volume = 1;
-        auChese.volume = 0;
+        auMaxwell.volume = 0;
+        auChese.volume = 1;
 
     }
 
     public void SetMusicLevel()
     {
         float volume = musicSlider.value;
-        myMixer.SetFloat("musicLevel", Mathf.Log10(volume) * 10);
+        myMixer.SetFloat("musicLevel", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("musicVol", volume);
     }
 
